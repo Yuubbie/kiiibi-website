@@ -237,7 +237,7 @@ Add to Cart — ₦11,300
 </nav>
 </div>
 <div class="footer-bottom">
-<span>&copy; 2026 Kweevah Bath Body Naturals. All rights reserved.</span>
+<span>© 2026 Kweevah Bath Body Naturals. All rights reserved.</span>
 <a href="https://wa.me/2347032352158?text=Hi%20Yubbie%2C%20I%20saw%20the%20KIIIBI%20website%20and%20I%27d%20like%20to%20talk%20about%20a%20website%20too" target="_blank" rel="noopener">Built by Yubbie Pen & Pixel</a>
 </div>
 </div>
@@ -307,7 +307,7 @@ function saveCart(){
 function loadCart(){
   const stored=localStorage.getItem('kiiibi_cart');
   if(stored){
-    try{cart=JSON.parse(stored);}catch{e;cart=[];}
+    try{cart=JSON.parse(stored);}catch(e){cart=[];}
   }
   updateCartBadge();
 }
