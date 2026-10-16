@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | KIIIBI</title>
+<meta name="description" content="Checkout your Kiiibi Cleanse order. Pay with Paystack.">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=2">
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+<header class="site">
+<div class="wrap">
+<a class="brandmark" href="index.html"><img src="assets/logo.jpeg" alt="KIIIBI"></a>
+<nav class="primary" id="primaryNav">
+<div class="nav-drop">
+<button type="button">Shop <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+<div class="menu">
+<a href="product.html">Kiiibi Cleanse <span>Black cream wash, available now</span></a>
+<a href="products.html">The range <span>Coming soon collection</span></a>
+</div>
+</div>
+<div class="nav-drop">
+<button type="button">Brand <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+<div class="menu">
+<a href="about.html">About</a>
+<a href="ritual.html">Our ritual</a>
+<a href="lifestyle.html">Lifestyle</a>
+</div>
+</div>
+<a href="contact.html">Contact</a>
+</nav>
+<div class="nav-actions">
+<a class="icon-btn" href="cart.html" aria-label="Cart">
+<svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+<span class="cart-count">0</span>
+</a>
+<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</div>
+</div>
+</header>
+
+<main id="top">
+<section class="page-intro" style="padding-bottom:0">
+<div class="wrap">
+<p class="eyebrow">Checkout</p>
+<h1>Delivery details.</h1>
+<p class="lead">We ship nationwide. Flat shipping is NGN 5,000. Payment is by Paystack.</p>
+</div>
+</section>
+<div class="wrap checkout">
+<form class="form-card" id="checkoutForm" novalidate>
+<div class="form-grid">
+<div class="field">
+<label for="fullName">Full name <span class="req">*</span></label>
+<input id="fullName" name="fullName" autocomplete="name" required>
+<span class="err">Enter your full name</span>
+</div>
+<div class="field">
+<label for="email">Email <span class="req">*</span></label>
+<input id="email" name="email" type="email" autocomplete="email" required>
+<span class="err">Enter a valid email</span>
+</div>
+<div class="field">
+<label for="phone">Phone <span class="req">*</span></label>
+<input id="phone" name="phone" type="tel" autocomplete="tel" required>
+<span class="err">Enter a valid phone number</span>
+</div>
+<div class="field">
+<label for="whatsapp">WhatsApp number <span class="req">*</span></label>
+<input id="whatsapp" name="whatsapp" type="tel" required>
+<span class="err">Enter a WhatsApp number</span>
+</div>
+<div class="field full">
+<label for="street">Street address <span class="req">*</span></label>
+<input id="street" name="street" autocomplete="street-address" required>
+<span class="err">Enter your street address</span>
+</div>
+<div class="field">
+<label for="city">City <span class="req">*</span></label>
+<input id="city" name="city" autocomplete="address-level2" required>
+<span class="err">Enter your city</span>
+</div>
+<div class="field">
+<label for="state">State <span class="req">*</span></label>
+<select id="state" name="state" required>
+<option value="">Select state</option>
+</select>
+<span class="err">Select a state</span>
+</div>
+<div class="field full">
+<label for="landmark">Landmark</label>
+<input id="landmark" name="landmark" placeholder="Nearest bus stop, estate, or building">
+</div>
+<div class="field full">
+<label for="notes">Order notes</label>
+<textarea id="notes" name="notes" placeholder="Gate code, preferred time, gift message"></textarea>
+</div>
+</div>
+<button class="btn btn-primary" id="payBtn" type="submit" style="width:100%;margin-top:1.4rem">Pay with Paystack</button>
+<p class="note-xs" style="margin-top:.8rem">Dummy Paystack is on until you add your live public key in js/config.js.</p>
+</form>
+<aside class="summary">
+<h2>Your order</h2>
+<div id="orderLines"></div>
+<div class="row"><span>Subtotal</span><span id="subtotal">NGN 0</span></div>
+<div class="row"><span>Shipping</span><span id="shipping">NGN 5,000</span></div>
+<div class="row total"><span>Total</span><span id="total">NGN 0</span></div>
+</aside>
+</div>
+</main>
+
+<div class="pay-modal" id="payModal" role="dialog" aria-modal="true" aria-labelledby="payTitle">
+<div class="pay-box">
+<div class="pay-head">
+<strong id="payTitle">Paystack</strong>
+<span>Test checkout</span>
+</div>
+<div class="pay-body">
+<p class="note">Paying as <span id="dummyEmail"></span></p>
+<p class="pay-amt" id="dummyAmt">NGN 0</p>
+<p class="note" style="margin-bottom:1.2rem">This is a dummy Paystack popup. Replace the public key in js/config.js to take real payments.</p>
+<button class="btn btn-primary" id="dummyPay" type="button" style="width:100%">Pay now</button>
+<button class="btn btn-ghost" id="dummyCancel" type="button" style="width:100%;margin-top:.6rem">Cancel</button>
+</div>
+</div>
+</div>
+
+<footer>
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img class="footer-logo" src="assets/logo.jpeg" alt="KIIIBI">
+<p>KIIIBI is the body care line of Kweevah Bath Body Naturals. Nature meets refinement. Made in Nigeria.</p>
+</div>
+<nav class="footer-col">
+<h5>Shop</h5>
+<a href="product.html">Kiiibi Cleanse</a>
+<a href="cart.html">Cart</a>
+</nav>
+<nav class="footer-col">
+<h5>Brand</h5>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div class="footer-col">
+<h5>Stay in touch</h5>
+<a href="mailto:contactkiiibi@kiiibi.com">contactkiiibi@kiiibi.com</a>
+<a href="tel:+2348129711772">+234 812 971 1772</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2026 Kweevah Bath Body Naturals. All rights reserved.</span>
+<a href="https://wa.me/2347032352158" target="_blank" rel="noopener">Built by Yubbie Pen and Pixel</a>
+</div>
+</div>
+</footer>
+<a class="float-wa" href="https://wa.me/2348129711772?text=Hi%20KIIIBI%2C%20I%20have%20a%20question" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.84c0 1.77.5 3.45 1.36 4.89L2 22l5.45-1.43a9.86 9.86 0 004.59 1.13h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2z"/></svg></a>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="js/config.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
