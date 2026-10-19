@@ -83,16 +83,49 @@
       toggle.addEventListener("click", function () {
         var open = nav.classList.toggle("open");
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        document.body.classList.toggle("nav-open", open);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && nav.classList.contains("open")) {
+          nav.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.setAttribute("aria-label", "Open menu");
+          document.body.classList.remove("nav-open");
+          toggle.focus();
+        }
+      });
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 900 && nav.classList.contains("open")) {
+          nav.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+          document.body.classList.remove("nav-open");
+        }
       });
     }
     document.querySelectorAll(".nav-drop > button").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         if (window.matchMedia("(max-width:900px)").matches) {
           e.preventDefault();
-          btn.parentElement.classList.toggle("open");
+          var drop = btn.parentElement;
+          var willOpen = !drop.classList.contains("open");
+          document.querySelectorAll(".nav-drop").forEach(function (d) { d.classList.remove("open"); });
+          if (willOpen) drop.classList.add("open");
         }
       });
     });
+    if (nav) {
+      nav.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () {
+          nav.classList.remove("open");
+          document.body.classList.remove("nav-open");
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Open menu");
+          }
+        });
+      });
+    }
     var path = (location.pathname.split("/").pop() || "index.html");
     document.querySelectorAll("nav.primary a[data-page]").forEach(function (a) {
       if (a.getAttribute("data-page") === path) a.setAttribute("aria-current", "page");
@@ -217,9 +250,11 @@
         );
       }).join("");
       var sub = cartSubtotal();
+      var free = sub >= CFG.freeShippingThreshold;
+      var ship = free ? 0 : CFG.shipping;
       document.getElementById("subtotal").textContent = money(sub);
-      document.getElementById("shipping").textContent = money(CFG.shipping);
-      document.getElementById("total").textContent = money(sub + CFG.shipping);
+      document.getElementById("shipping").textContent = free ? "Free" : money(ship);
+      document.getElementById("total").textContent = money(sub + ship);
     }
 
     document.getElementById("cartList").addEventListener("click", function (e) {
@@ -258,10 +293,12 @@
         return '<div class="row"><span>' + i.name + " · " + i.size + " x" + i.qty + "</span><span>" + money(i.price * i.qty) + "</span></div>";
       }).join("");
       var sub = cartSubtotal();
+      var free = sub >= CFG.freeShippingThreshold;
+      var ship = free ? 0 : CFG.shipping;
       document.getElementById("subtotal").textContent = money(sub);
-      document.getElementById("shipping").textContent = money(CFG.shipping);
-      document.getElementById("total").textContent = money(sub + CFG.shipping);
-      document.getElementById("payBtn").textContent = "Pay " + money(sub + CFG.shipping);
+      document.getElementById("shipping").textContent = free ? "Free" : money(ship);
+      document.getElementById("total").textContent = money(sub + ship);
+      document.getElementById("payBtn").textContent = "Pay " + money(sub + ship);
     }
     fillSummary();
 
@@ -304,8 +341,8 @@
         },
         items: cart,
         subtotal: cartSubtotal(),
-        shipping: CFG.shipping,
-        total: cartSubtotal() + CFG.shipping,
+        shipping: cartSubtotal() >= CFG.freeShippingThreshold ? 0 : CFG.shipping,
+        total: cartSubtotal() >= CFG.freeShippingThreshold ? cartSubtotal() : cartSubtotal() + CFG.shipping,
         createdAt: new Date().toISOString()
       };
       openPaystack(order);
